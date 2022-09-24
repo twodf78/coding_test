@@ -6,6 +6,7 @@ temp = []
 a_temp=[]
 cnt = 0
 
+
 for i in range(n):
     a[i] =int(a[i])
     b[i] = int(b[i])
