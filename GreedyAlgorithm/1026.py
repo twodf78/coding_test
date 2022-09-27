@@ -13,6 +13,7 @@ for i in range(n):
     temp.append(b[i])
     a_temp.append(-1)
 
+
 def findMax(s):
     var = -1
     index = 0
