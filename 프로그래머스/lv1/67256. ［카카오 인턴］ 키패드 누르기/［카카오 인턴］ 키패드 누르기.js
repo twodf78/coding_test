@@ -13,14 +13,6 @@ function solution(numbers, hand) {
         }else{
             const leftDifference =  Math.abs(parseInt(num /3) - parseInt((leftPosition-1) /3)) + Math.abs((leftPosition-1) %3 - (num-1) %3);
             const rightDifference =  Math.abs(parseInt(num /3) - parseInt((rightPosition-1) /3)) + Math.abs((rightPosition-1) %3 - (num-1) %3);
-
-            console.log('num',num);
-            console.log('leftPosition',leftPosition);
-            console.log('rightPosition',rightPosition);
-            console.log('leftDifference',leftDifference);
-            console.log('rightDifference',rightDifference);
-            console.log('rightHeight',Math.abs(parseInt(num /3) - parseInt((rightPosition-1) /3)));
-            console.log('rightWidth',Math.abs((rightPosition-1) %3 - (num-1) %3));
             if(leftDifference === rightDifference){
                 if(hand === 'right'){
                     answer +='R';
@@ -32,7 +24,7 @@ function solution(numbers, hand) {
             }else if(leftDifference > rightDifference){
                 answer +='R';
                 rightPosition = num;
-            }else if(leftDifference < rightDifference){
+            }else {
                 answer +='L';
                 leftPosition = num;
             }
