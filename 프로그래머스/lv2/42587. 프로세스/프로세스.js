@@ -1,19 +1,17 @@
 function solution(priorities, location) {
-    var answer = 0;
-    const dict = [];
-    priorities.forEach((v)=>{
-        dict.push( v)
-    })
-    dict.sort((a,b)=> b - a);
-    for(let i = 0; i< priorities.length ; i++){
-        const current = priorities[i];
-        if(current === dict[answer]){
-            answer++;
-            if(i === location) break;
+    var list = priorities.map((t,i)=>({
+        my : i === location,
+        val : t
+    }));
+    var count = 0;        
+    while(true){
+        var cur = list.splice(0,1)[0];        
+        if(list.some(t=> t.val > cur.val )){
+            list.push(cur);                        
         }
-        if(i === priorities.length-1){
-            i = -1;
+        else{            
+            count++;
+            if(cur.my) return count;
         }
     }
-    return answer;
 }
