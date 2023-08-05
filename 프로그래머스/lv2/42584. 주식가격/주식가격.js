@@ -12,7 +12,7 @@ function solution(prices) {
             }
         }
     }
-    
+
     let answer = Object.values(priceDict);
     return answer;
 }
