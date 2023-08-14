@@ -18,7 +18,6 @@ function solution(order) {
                 assistant.push(i);
             }
         }
-        if(sequence >= order.length) break;
 
     }
     while(assistant.length>0){
