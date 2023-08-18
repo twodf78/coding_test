@@ -28,19 +28,14 @@ function solution(bridge_length, weight, truck_weights) {
         whenTimePassed(1);
     }
     
-    
-    
     for(let i = 0; i< truck_weights.length; i++){
         
         const currentTruck = truckMap[i];
-
         
         if(bridge_length >= currentTruckOnBridge.length && currentTruck.weight + totalWeightOnBridge <= weight){
-            
             putOneTruckOnBridge(i, currentTruck.weight);
         }
         else if(currentTruck.weight + totalWeightOnBridge <= weight){
-            
             const firstTruck = truckMap[currentTruckOnBridge.shift()];
             const timeNeededToPassTheFirstTruck = bridge_length - firstTruck.time;
             totalWeightOnBridge-= firstTruck.weight;
@@ -48,7 +43,6 @@ function solution(bridge_length, weight, truck_weights) {
             putOneTruckOnBridge(i, currentTruck.weight);
 
         }else if(bridge_length >= currentTruckOnBridge.length){
-            
             while(currentTruck.weight + totalWeightOnBridge > weight){
                 const firstTruck = truckMap[currentTruckOnBridge.shift()];
                 const timeNeededToPassTheFirstTruck = bridge_length - firstTruck.time;
@@ -58,11 +52,8 @@ function solution(bridge_length, weight, truck_weights) {
             putOneTruckOnBridge(i, currentTruck.weight);
             
         }else{
-            
             while(currentTruck.weight + totalWeightOnBridge > weight || bridge_length < currentTruckOnBridge.length){
                 const firstTruck = truckMap[currentTruckOnBridge.shift()];
-                console.log("firstTruck",firstTruck)
-                
                 const timeNeededToPassTheFirstTruck = bridge_length - firstTruck.time;
                 totalWeightOnBridge-= firstTruck.weight;
                 whenTimePassed(timeNeededToPassTheFirstTruck);
