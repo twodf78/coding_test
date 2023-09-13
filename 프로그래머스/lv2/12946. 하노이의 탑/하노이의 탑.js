@@ -3,16 +3,6 @@ function solution(n) {
     let stackOne = new Array(n).fill(0).map((v, i)=>i+1);
     let stackTwo = [];
     let stackThree = [];
-    
-                    // console.log("i: >> ", i)
-                    // console.log("j: >> ", j)
-                    // console.log("arrI: >> ", arrI)
-                    // console.log("arrJ: >> ", arrJ)
-                    // console.log("stackOne: >> ", stackOne)
-                    // console.log("stackTwo: >> ", stackTwo)
-                    // console.log("stackThree: >> ", stackThree)
-                    // console.log("stack: >> ", stack)
-    
     const push = (a, b)=>{
         let tempStackA = a===1 ? stackOne : a===2 ? stackTwo : stackThree;
         let tempStackB = b===1 ? stackOne : b===2 ? stackTwo : stackThree;
@@ -20,8 +10,21 @@ function solution(n) {
         tempStackB.sort((a,b) =>a-b);
         answer.push([a,b]);
     }
-    const numToArr = (num) =>{
-        return num===1 ? stackOne : num===2 ? stackTwo : stackThree;
+    const arrCompare = (i, j) =>{
+        let arrI = i===1 ? stackOne : i===2 ? stackTwo : stackThree;
+        let arrJ = j===1 ? stackOne : j===2 ? stackTwo : stackThree;
+
+        if(arrJ.length=== 0){
+            push(i, j);
+        }else if (arrI.length=== 0){
+            push(j, i);
+        }else{
+            if (arrI[0] < arrJ[0]){
+                push(i, j);
+            }else{
+                push(j, i);
+            }
+        }  
     }
 
     try{
@@ -29,20 +32,7 @@ function solution(n) {
             while(stackThree.length < n){
                 for(let i = 1; i<= 2; i++){
                     for(let j = i+1 ; j<=3;j++){
-                        let arrI = numToArr(i);
-                        let arrJ = numToArr(j);
-
-                        if(arrJ.length=== 0){
-                            push(i, j);
-                        }else if (arrI.length=== 0){
-                            push(j, i);
-                        }else{
-                            if (arrI[0] < arrJ[0]){
-                                push(i, j);
-                            }else{
-                                push(j, i);
-                            }
-                        }   
+                        arrCompare(i, j); 
                         if(stackThree.length === n){
                             throw new Error("finish");
                         }
@@ -53,20 +43,8 @@ function solution(n) {
             while(stackThree.length < n){
                 for(let i = 1; i<= 2; i++){
                     for(let j = 3; j>=i+1;j--){
-                        let arrI = numToArr(i);
-                        let arrJ = numToArr(j);
-                        if(arrJ.length=== 0){
-                            push(i, j);
-                        }else if (arrI.length=== 0){
-                            push(j, i);
-                        }else{
-                            if (arrI[0] < arrJ[0]){
-                                push(i, j);
+                        arrCompare(i, j); 
 
-                            }else{
-                                push(j, i);
-                            }
-                        }
                         if(stackThree.length === n){
                             throw new Error("finish");
                         }
