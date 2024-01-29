@@ -1,6 +1,5 @@
+
 function solution(n, works) {
-    works.sort((a,b)=>b-a);
-    
     const reduce = (rest, idx) =>{
         let i = 0;
         while(rest > 0){
@@ -10,21 +9,21 @@ function solution(n, works) {
             i++;
         }
     }
+    
+    works.sort((a,b)=>b-a);
+    
     for(let i = 0; i< works.length; i++){
         if(i === works.length - 1 || n === 0) break;
         const workCount = i + 1;
         const smallerWork = works[i + 1];
         const biggerWork = works[i];
         
-        if(biggerWork - smallerWork === 0){
-            continue;
-        }
-        let minus = Math.min(n, (biggerWork - smallerWork) * workCount);
+        if(biggerWork - smallerWork === 0)continue;
+        
+        const minus = Math.min(n, (biggerWork - smallerWork) * workCount);
 
         reduce(minus, i);
         n -= minus;
-
-        
     }
     
     reduce(n, works.length - 1);
