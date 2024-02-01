@@ -1,5 +1,5 @@
 
-function solution(n, m, puddles) {
+function solution(m, n, puddles) {
     var answer = 0;
     if(m===1 || n===1){
         return puddles.length === 0 ? 1 : 0;
@@ -10,8 +10,8 @@ function solution(n, m, puddles) {
         dp.push([...new Array(n).fill(1)])
     }
     for(let [height,width] of puddles){
-        let j = height - 1;
-        let i = width - 1;
+        let i = height - 1;
+        let j = width - 1;
         if(i === 0){
             for(let idx = j; idx < n; idx++){
                 dp[i][idx] = 0;
