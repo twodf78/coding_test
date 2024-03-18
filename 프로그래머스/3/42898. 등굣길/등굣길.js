@@ -1,36 +1,21 @@
 
 function solution(m, n, puddles) {
-    var answer = 0;
-    if(m===1 || n===1){
-        return puddles.length === 0 ? 1 : 0;
+    const dp = Array.from({length: m}, _ => Array.from({length: n}, _ => 1));
+    for(const [m1, n1] of puddles){
+        dp[m1 - 1][n1 - 1] = 0;
     }
-    const dp = [];
     
-    for(let i = 0; i<m; i++){
-        dp.push([...new Array(n).fill(1)])
-    }
-    for(let [height,width] of puddles){
-        let i = height - 1;
-        let j = width - 1;
-        if(i === 0){
-            for(let idx = j; idx < n; idx++){
-                dp[i][idx] = 0;
-            }
-        }
-        if(j === 0){
-            for(let idx = i; idx < m; idx++){
-                dp[idx][j] = 0;
-            }
-        }
-        dp[i][j] = 0;
-    }
-    for(let i = 1; i < m; i++){
-        for(let j = 1; j < n; j++){
+    for(let i = m - 1; i>= 0; i--){
+        for(let j = n - 1; j>= 0; j--){
             if(dp[i][j] === 0) continue;
-            dp[i][j] =(dp[i-1][j] + dp[i][j-1]) % 1000000007;
-            
+            if(j === n - 1 && i!==m-1){
+                dp[i][j] = dp[i+1][j] % 1000000007;
+            }else if(j !== n- 1 && i=== m-1){
+                dp[i][j] = dp[i][j+1] % 1000000007;
+            }else if(i !== m-1 && j !== n-1){
+                dp[i][j] = (dp[i + 1][j] + dp[i][j + 1]) % 1000000007;
+            }
         }
     }
-    
-    return dp[m-1][n-1] % 1000000007;
+    return dp[0][0] % 1000000007;
 }
