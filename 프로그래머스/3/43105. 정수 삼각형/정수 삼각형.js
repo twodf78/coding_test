@@ -1,19 +1,19 @@
 function solution(triangle) {
-    let answerList = [0];
-    
-    for(let currentRow of triangle){
-        const newAnswerList = [];
-        currentRow.forEach((currentNum, index) => {
-            if(index === 0){
-                newAnswerList.push(answerList[0] +currentNum);              
-            }else if(index === currentRow.length - 1){
-                newAnswerList.push(answerList[answerList.length - 1] +currentNum);              
+    const dp = Array.from({length: triangle.length}, _ =>0 );
+    dp[0] = triangle[0][0];
+    let previous = [...dp];
+    for(let i = 1; i< triangle.length;i++){
+        for(let j = 0; j<triangle[i].length; j++){
+            if(j ===0){
+                dp[j] = previous[j] + triangle[i][j];
+            }else if(j === triangle[i].length - 1){
+                dp[j] = previous[j - 1] + triangle[i][j];
             }else{
-                newAnswerList.push(Math.max(answerList[index], answerList[index-1]) +currentNum);              
+                dp[j] = Math.max(previous[j] + triangle[i][j],  previous[j - 1] + triangle[i][j]);
             }
-        });
-        answerList = newAnswerList;
+        }
+        previous = [...dp];
+        
     }
-    
-    return Math.max(...answerList);
+    return Math.max(...dp);
 }
