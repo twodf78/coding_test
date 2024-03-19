@@ -1,31 +1,19 @@
 function solution(numbers, target) {
-    let answer = 0;
-    
-    const bfs = (numberList) =>{
-        const newNumberList = [];
-        if(numberList.length === 0){
-            return;
-        }else{
-            for(let numberPair of numberList){
-                const [acc, index] = numberPair;
-                newNumberList.push([acc + numbers[index], index + 1]);
-                newNumberList.push([acc - numbers[index], index + 1]);
-            }
-            
-            if(numberList.at(0)[1] === numbers.length - 1){
-                answer = newNumberList.filter((newNumberPair) => {
-                    const [acc, index] = newNumberPair;
-                    return acc === target;
-                }).length
-                
-                return;
-            }
+    if(numbers.length === 1) return numbers[0] === target ? 1 : 0
+    let count = 0;
+    const bfs = (queue) =>{
+        count++;
+        const newQueue = [];
+        for(let i = 0; i<queue.length; i++){
+            const num = queue[i];
+            newQueue.push(num + numbers[count]);
+            newQueue.push(num - numbers[count]);
         }
-        bfs(newNumberList);
+        if(count >= numbers.length - 1){
+            return newQueue.filter((v)=>v===target).length;
+        }else{
+            return bfs(newQueue)
+        }
     }
-    
-    //acc, index
-    bfs([[0, 0]]);
-    
-    return answer;
+    return bfs([numbers[0], -numbers[0]]);
 }
