@@ -1,33 +1,46 @@
+const dr = [
+    [1,0],
+    [-1,0],
+    [0, 1],
+    [0, -1]
+];
 function solution(maps) {
-    const height = maps.length;  
-    const width = maps[0].length;  
-    const dx = [-1, 1, 0, 0];
-    const dy = [0, 0, -1, 1];
+    let min = -1;
+    const height = maps.length;
+    const width = maps[0].length;
     
-    let min =1;
-    const nextMoves = [[0,0]];
-    while(nextMoves.length>0){
+    const isValid = (n, m) =>{
+        if(n < 0 || n > height - 1 || m < 0 || m> width - 1) return false;
+        if(maps[n][m] !== 1) return false;
+        return true;
+    }
 
-        const size = nextMoves.length;
+    
+    let queue = [[0,0]];
+    while(queue.length){
+        min++;
+        if(min > height * width){
+            break;
+        }
+        const newQueue= [];
+        for(let i = 0; i< queue.length; i++){
+            const [n, m] = queue[i];
+            if(n === height - 1 && m === width - 1){
+                return min + 1;
+            }
 
-        for(let i = 0; i < size; i++) {
-            const [n, m] = nextMoves.shift();
-
-            for(let j = 0; j < 4; j++) {
-                let nx = n + dx[j];
-                let ny = m + dy[j];
-
-                if(nx >= 0 && nx < height && ny >= 0 && ny < width && maps[nx][ny] === 1) {
-                    if(nx == height - 1 && ny == width - 1) {
-                        return min + 1;
-                    }
-                    nextMoves.push([nx, ny]);
-                    maps[nx][ny] = 0;
+            for(let i = 0; i< 4; i++){
+                const newN = n + dr[i][0];
+                const newM = m + dr[i][1];
+                if(isValid(newN, newM)) {
+                    maps[newN][newM] = 2;
+                    newQueue.push([newN, newM]);   
                 }
             }
         }
-        min++;
+        
+        queue = [...newQueue];
     }
-    
+
     return -1;
 }
