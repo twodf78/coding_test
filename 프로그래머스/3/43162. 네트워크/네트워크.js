@@ -1,31 +1,33 @@
 function solution(n, computers) {
-    const visit = Array.from({length: n}, _ => false);
-    let count = 0;
-    const bfs = (queue) =>{
+    const visited = [...new Array(n).fill(false)];
+    
+    const bfs = (queue) => {
         const newQueue = [];
-        while(queue.length){
-            const current = queue.shift();
-            visit[current] = true;
+        while(queue.length > 0){
+            const currentIdx = queue.shift();
+            visited[currentIdx] = true;
             
-            const nextList = computers[current];
-            for(let i = 0; i<nextList.length; i++){
-                const next = nextList[i];
-                if(visit[i] || next === 0) continue;
-                newQueue.push(i);
+            const currentComputer = computers[currentIdx];
+            
+            for(let i = 0; i<n; i++){
+                if(visited[i] === false && computers[currentIdx][i] === 1){
+                    newQueue.push(i);
+                }
             }
-        }
-        
-        if(newQueue.length){
-            return bfs(newQueue);
-        }else{
-            return;
+            queue = newQueue;
         }
         
     }
-    for(let i = 0; i<computers.length; i++){
-        if(visit[i]) continue;
-        bfs([i]);
-        count++;
+    let answer = 0;
+    let unvisitedList = visited.filter((x)=>!x);
+    while(unvisitedList.length > 0){
+        
+        let queue = [visited.indexOf(false)];
+        
+        bfs(queue);
+        answer++;
+        unvisitedList = visited.filter((x)=>!x);
+        
     }
-    return count;
+    return answer;
 }
