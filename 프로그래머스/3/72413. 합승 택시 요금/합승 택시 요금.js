@@ -1,28 +1,27 @@
-function solution (n, s, a, b, fares) {
-  const board = new Array(n).fill().map(_ => new Array(n).fill(Infinity));
-  for(let i = 0; i < n; i++){
-    board[i][i] = 0;
+function solution(n, s, a, b, fares) {
+  const dp = Array.from({ length: n + 1 }, (_) => Array.from({ length: n + 1 }, (_) => Infinity));
+  for (let i = 1; i <= n; i++) {
+    dp[i][i] = 0;
   }
-  
-  fares.forEach(([x, y, weight]) => {
-    board[x-1][y-1] = weight;
-    board[y-1][x-1] = weight;
-  });
-  
-  for(let k = 0; k < n; k++) {
-    for(let i = 0; i < n; i++) {
-      for(let j = 0; j < n; j++) {
-        if(board[i][j] > board[i][k] + board[k][j])
-          board[i][j] = board[i][k] + board[k][j];
+  for (const [a, b, cost] of fares) {
+    dp[a][b] = cost;
+    dp[b][a] = cost;
+  }
+
+  for (let k = 1; k <= n; k++) {
+    for (let i = 1; i <= n; i++) {
+      for (let j = 1; j <= n; j++) {
+        if (dp[i][j] > dp[i][k] + dp[k][j]) {
+          dp[i][j] = dp[i][k] + dp[k][j];
+        }
       }
     }
   }
-  
-  let answer = board[s-1][a-1] + board[s-1][b-1];
-  for(let i = 0; i < n; i++) {
-    const shortest = board[s-1][i] + board[i][a-1] + board[i][b-1];
-    answer = Math.min(answer, shortest);
+
+  let answer = Infinity;
+  for (let i = 1; i <= n; i++) {
+    const val = dp[s][i] + dp[i][a] + dp[i][b];
+    answer = answer > val ? val : answer;
   }
-  
   return answer;
 }
